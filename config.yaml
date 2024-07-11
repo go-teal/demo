@@ -1,0 +1,13 @@
+version: '1.0.0'
+module: github.com/go-teal/demo
+connections:
+  - name: default
+    type: duckdb
+    config:
+      path: ./store/test.duckdb            
+      extensions:
+        - postgres
+        - httpfs         
+      # extraParams: 
+      #   - name: "name"
+      #     value: "value"

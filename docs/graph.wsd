@@ -1,0 +1,22 @@
+
+@startuml demo
+left to right direction
+state staging {
+            state staging.addresses: table
+            state staging.transactions: table
+            state staging.wallets: table
+}
+state dds {
+            state dds.dim_addresses: table
+            state dds.fact_transactions: incremental
+}
+state mart {
+            state mart.mart_wallet_report: view
+}
+staging.addresses-->dds.dim_addresses
+staging.transactions-->dds.fact_transactions
+dds.dim_addresses-->dds.fact_transactions
+dds.fact_transactions-->mart.mart_wallet_report
+
+
+@enduml
