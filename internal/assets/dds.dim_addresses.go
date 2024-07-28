@@ -48,12 +48,17 @@ var ddsDimAddressesModelDescriptor = &models.SQLModelDescriptor{
 		"dds.fact_transactions",
 	},
 	ModelProfile:  &configs.ModelProfile{
-		Name: 				"dim_addresses",
+		Name: 				"dds.dim_addresses",
 		Stage: 				"dds",
 		Connection: 		"default",
 		Materialization: 	"table",
 		IsDataFramed: 		false,
 		PersistInputs: 		false,
+		Tests: []*configs.TestProfile {
+			{
+				Name: 			"root.test_dim_addresses_unique",		
+			},
+		},
 	},
 }
 

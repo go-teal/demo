@@ -17,16 +17,19 @@ import (
 )
 
 func main() {
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	logger := log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	log.Logger = logger
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	log.Info().Msg("demo")
 	core.GetInstance().Init("config.yaml", ".")
 	config := core.GetInstance().Config
-	dag := dags.InitChannelDag(assets.DAG, assets.PorjectAssets, config, "instance 1")
+	// dag := dags.InitChannelDag(assets.DAG, assets.PorjectAssets, config, "instance 1")
+	dag := dags.InitChannelDagWithTests(assets.DAG, assets.PorjectAssets, modeltests.PorjectTests, config, "instance 1")
 	wg := dag.Run()
-	result := <-dag.Push("TEST", nil, make(chan map[string]interface{}))
+	result := <-dag.Push("example", nil, make(chan map[string]interface{}))
 	fmt.Println(result)
 	dag.Stop()
 	wg.Wait()
 
-	modeltests.TestAll()
+	// modeltests.TestAll()
 }

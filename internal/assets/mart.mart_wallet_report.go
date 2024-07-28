@@ -43,6 +43,8 @@ var martMartWalletReportModelDescriptor = &models.SQLModelDescriptor{
 		Materialization: 	"view",
 		IsDataFramed: 		false,
 		PersistInputs: 		false,
+		Tests: []*configs.TestProfile {
+		},
 	},
 }
 

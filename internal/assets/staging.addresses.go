@@ -86,6 +86,8 @@ var stagingAddressesModelDescriptor = &models.SQLModelDescriptor{
 		Materialization: 	"table",
 		IsDataFramed: 		true,
 		PersistInputs: 		false,
+		Tests: []*configs.TestProfile {
+		},
 	},
 }
 

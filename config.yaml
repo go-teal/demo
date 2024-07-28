@@ -4,7 +4,7 @@ connections:
   - name: default
     type: duckdb
     config:
-      path: ./store/test.duckdb            
+      path: ./store/db_file.duckdb            
       extensions:
         - postgres
         - httpfs         

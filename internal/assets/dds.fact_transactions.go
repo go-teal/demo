@@ -130,12 +130,17 @@ var ddsFactTransactionsModelDescriptor = &models.SQLModelDescriptor{
 		"mart.mart_wallet_report",
 	},
 	ModelProfile:  &configs.ModelProfile{
-		Name: 				"fact_transactions",
+		Name: 				"dds.fact_transactions",
 		Stage: 				"dds",
 		Connection: 		"default",
 		Materialization: 	"incremental",
 		IsDataFramed: 		false,
 		PersistInputs: 		false,
+		Tests: []*configs.TestProfile {
+			{
+				Name: 			"dds.test_transactions",		
+			},
+		},
 	},
 }
 

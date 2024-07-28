@@ -5,5 +5,12 @@ models:
   stages:
     - name: staging
     - name: dds  
+      models:
+        - name: dds.fact_transactions
+          tests:
+            - name: dds.test_transactions
+        - name: dds.dim_addresses
+          tests:
+            - name: root.test_dim_addresses_unique
     - name: mart
     

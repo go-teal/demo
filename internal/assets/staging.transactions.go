@@ -110,6 +110,8 @@ var stagingTransactionsModelDescriptor = &models.SQLModelDescriptor{
 		Materialization: 	"table",
 		IsDataFramed: 		false,
 		PersistInputs: 		false,
+		Tests: []*configs.TestProfile {
+		},
 	},
 }
 

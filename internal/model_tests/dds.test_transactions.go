@@ -8,14 +8,14 @@ import (
 
 const RAW_SQL_DDS_TEST_TRANSACTIONS = `
 
-SELECT pk_id, count(pk_id) as c from dds.fact_transactions group by pk_id HAVING c > 1
+select pk_id, count(pk_id) as c from dds.fact_transactions group by pk_id having c > 1
 `
 
 const COUNT_TEST_SQL_DDS_TEST_TRANSACTIONS = `
 select count(*) as test_count from 
 (
 
-SELECT pk_id, count(pk_id) as c from dds.fact_transactions group by pk_id HAVING c > 1
+select pk_id, count(pk_id) as c from dds.fact_transactions group by pk_id having c > 1
 ) having test_count > 0 limit 1
 `
 
