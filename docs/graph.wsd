@@ -2,21 +2,27 @@
 @startuml demo
 left to right direction
 state staging {
-            state staging.addresses: table
-            state staging.transactions: table
-            state staging.wallets: table
+    state staging.addresses: table
+    state staging.transactions: table
+    state staging.wallets: table
 }
 state dds {
-            state dds.dim_addresses: table
-            state dds.fact_transactions: incremental
+    state dds.dim_addresses: table
+    state dds.fact_transactions: incremental
 }
 state mart {
-            state mart.mart_wallet_report: view
+    state mart.mart_address_len: table
+    state mart.mart_wallet_report: view
 }
-staging.addresses-->dds.dim_addresses
-staging.transactions-->dds.fact_transactions
-dds.dim_addresses-->dds.fact_transactions
-dds.fact_transactions-->mart.mart_wallet_report
+state mart2 {
+    state mart2.mart_addresses: table
+}
+staging.addresses-->dds.dim_addresses: Ref staging.addresses
+staging.addresses-->mart2.mart_addresses: Ref staging.addresses
+staging.transactions-->dds.fact_transactions: Ref staging.transactions
+dds.dim_addresses-->dds.fact_transactions: Ref dds.dim_addresses
+dds.fact_transactions-->mart.mart_wallet_report: Ref dds.fact_transactions
+mart2.mart_addresses-->mart.mart_address_len: Ref mart2.mart_addresses
 
 
 @enduml

@@ -13,4 +13,5 @@ models:
           tests:
             - name: root.test_dim_addresses_unique
     - name: mart
+    - name: mart2
     

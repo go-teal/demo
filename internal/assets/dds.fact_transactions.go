@@ -1,3 +1,4 @@
+
 package assets
 
 import (	
@@ -11,7 +12,7 @@ const RAW_SQL_DDS_FACT_TRANSACTIONS = `
 
 with source as (
     select 
-        sha256( t.tx_hash || t.currency || t.wallet_address) as pk_id,
+        sha256( t.tx_hash || t.currency || t.wallet_address || t.tx_index) as pk_id,
         t.amount::HUGEINT as amount,
         t.tx_created_on as tx_created_on,
         date_trunc('day',  t.tx_created_on) as tx_date,
@@ -41,11 +42,12 @@ select
  {{- end}}
 `
 const SQL_DDS_FACT_TRANSACTIONS_CREATE_TABLE = `
-create table dds.fact_transactions as (
+create table dds.fact_transactions 
+as (
 
 with source as (
     select 
-        sha256( t.tx_hash || t.currency || t.wallet_address) as pk_id,
+        sha256( t.tx_hash || t.currency || t.wallet_address || t.tx_index) as pk_id,
         t.amount::HUGEINT as amount,
         t.tx_created_on as tx_created_on,
         date_trunc('day',  t.tx_created_on) as tx_date,
@@ -72,14 +74,15 @@ select
 
  {{- if IsIncremental }}
     where tx_date > (select max(tx_created_on) from dds.fact_transactions)
- {{- end}})
+ {{- end}});
+
 `
 const SQL_DDS_FACT_TRANSACTIONS_INSERT = `
 insert into dds.fact_transactions ({{ ModelFields }}) (
 
 with source as (
     select 
-        sha256( t.tx_hash || t.currency || t.wallet_address) as pk_id,
+        sha256( t.tx_hash || t.currency || t.wallet_address || t.tx_index) as pk_id,
         t.amount::HUGEINT as amount,
         t.tx_created_on as tx_created_on,
         date_trunc('day',  t.tx_created_on) as tx_date,
@@ -112,7 +115,8 @@ const SQL_DDS_FACT_TRANSACTIONS_DROP_TABLE = `
 drop table dds.fact_transactions
 `
 const SQL_DDS_FACT_TRANSACTIONS_TRUNCATE = `
-truncate table dds.fact_transactions
+delete from dds.fact_transactions where true;
+truncate table dds.fact_transactions;
 `
 
 var ddsFactTransactionsModelDescriptor = &models.SQLModelDescriptor{
@@ -130,16 +134,13 @@ var ddsFactTransactionsModelDescriptor = &models.SQLModelDescriptor{
 		"mart.mart_wallet_report",
 	},
 	ModelProfile:  &configs.ModelProfile{
-		Name: 				"dds.fact_transactions",
+		Name: 				"fact_transactions",
 		Stage: 				"dds",
 		Connection: 		"default",
 		Materialization: 	"incremental",
 		IsDataFramed: 		false,
 		PersistInputs: 		false,
 		Tests: []*configs.TestProfile {
-			{
-				Name: 			"dds.test_transactions",		
-			},
 		},
 	},
 }

@@ -5,7 +5,7 @@
 
 with source as (
     select 
-        sha256( t.tx_hash || t.currency || t.wallet_address) as pk_id,
+        sha256( t.tx_hash || t.currency || t.wallet_address || t.tx_index) as pk_id,
         t.amount::HUGEINT as amount,
         t.tx_created_on as tx_created_on,
         date_trunc('day',  t.tx_created_on) as tx_date,

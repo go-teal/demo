@@ -1,3 +1,4 @@
+
 package assets
 
 import (	
@@ -39,7 +40,8 @@ select
 
 `
 const SQL_STAGING_WALLETS_CREATE_TABLE = `
-create table staging.wallets as (
+create table staging.wallets 
+as (
 
 select
       id,    
@@ -68,7 +70,8 @@ select
       'updated_at':'DATE'
       }
     )
-)
+);
+
 `
 const SQL_STAGING_WALLETS_INSERT = `
 insert into staging.wallets ({{ ModelFields }}) (
@@ -106,7 +109,8 @@ const SQL_STAGING_WALLETS_DROP_TABLE = `
 drop table staging.wallets
 `
 const SQL_STAGING_WALLETS_TRUNCATE = `
-truncate table staging.wallets
+delete from staging.wallets where true;
+truncate table staging.wallets;
 `
 
 var stagingWalletsModelDescriptor = &models.SQLModelDescriptor{

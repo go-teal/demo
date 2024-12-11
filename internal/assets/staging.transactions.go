@@ -1,3 +1,4 @@
+
 package assets
 
 import (	
@@ -33,7 +34,8 @@ select
 
 `
 const SQL_STAGING_TRANSACTIONS_CREATE_TABLE = `
-create table staging.transactions as (
+create table staging.transactions 
+as (
 select
       id,
       created_on as tx_created_on,
@@ -56,7 +58,8 @@ select
       'index': 'INT',
       'is_suspicious':'BOOL'}
     )
-)
+);
+
 `
 const SQL_STAGING_TRANSACTIONS_INSERT = `
 insert into staging.transactions ({{ ModelFields }}) (
@@ -88,7 +91,8 @@ const SQL_STAGING_TRANSACTIONS_DROP_TABLE = `
 drop table staging.transactions
 `
 const SQL_STAGING_TRANSACTIONS_TRUNCATE = `
-truncate table staging.transactions
+delete from staging.transactions where true;
+truncate table staging.transactions;
 `
 
 var stagingTransactionsModelDescriptor = &models.SQLModelDescriptor{

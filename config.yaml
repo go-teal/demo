@@ -8,6 +8,11 @@ connections:
       extensions:
         - postgres
         - httpfs         
-      # extraParams: 
-      #   - name: "name"
-      #     value: "value"
+  - name: test_pg
+    type: postgres
+    config:
+      host: 127.0.0.1
+      port: 5432
+      user: postgres
+      password: "hLH1i9mcAX"
+      database: teal

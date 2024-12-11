@@ -1,3 +1,4 @@
+
 package assets
 
 import (	
@@ -25,7 +26,8 @@ select
     )
 `
 const SQL_STAGING_ADDRESSES_CREATE_TABLE = `
-create table staging.addresses as (
+create table staging.addresses 
+as (
 
 select
     id,
@@ -40,7 +42,8 @@ select
         'wallet_id': 'VARCHAR',
         'wallet_address': 'VARCHAR',
         'currency': 'VARCHAR'}
-    ))
+    ));
+
 `
 const SQL_STAGING_ADDRESSES_INSERT = `
 insert into staging.addresses ({{ ModelFields }}) (
@@ -64,7 +67,8 @@ const SQL_STAGING_ADDRESSES_DROP_TABLE = `
 drop table staging.addresses
 `
 const SQL_STAGING_ADDRESSES_TRUNCATE = `
-truncate table staging.addresses
+delete from staging.addresses where true;
+truncate table staging.addresses;
 `
 
 var stagingAddressesModelDescriptor = &models.SQLModelDescriptor{
@@ -78,6 +82,7 @@ var stagingAddressesModelDescriptor = &models.SQLModelDescriptor{
 	},
 	Downstreams: []string {
 		"dds.dim_addresses",
+		"mart2.mart_addresses",
 	},
 	ModelProfile:  &configs.ModelProfile{
 		Name: 				"addresses",

@@ -1,3 +1,4 @@
+
 package assets
 
 import (	
@@ -14,11 +15,13 @@ SELECT
  from staging.addresses
 `
 const SQL_DDS_DIM_ADDRESSES_CREATE_TABLE = `
-create table dds.dim_addresses as (SELECT 
+create table dds.dim_addresses 
+as (SELECT 
     sha256(wallet_address || currency) as pk_id,    
     wallet_address as wallet_address,
     currency
- from staging.addresses)
+ from staging.addresses);
+
 `
 const SQL_DDS_DIM_ADDRESSES_INSERT = `
 insert into dds.dim_addresses ({{ ModelFields }}) (SELECT 
@@ -31,7 +34,8 @@ const SQL_DDS_DIM_ADDRESSES_DROP_TABLE = `
 drop table dds.dim_addresses
 `
 const SQL_DDS_DIM_ADDRESSES_TRUNCATE = `
-truncate table dds.dim_addresses
+delete from dds.dim_addresses where true;
+truncate table dds.dim_addresses;
 `
 
 var ddsDimAddressesModelDescriptor = &models.SQLModelDescriptor{
@@ -48,16 +52,13 @@ var ddsDimAddressesModelDescriptor = &models.SQLModelDescriptor{
 		"dds.fact_transactions",
 	},
 	ModelProfile:  &configs.ModelProfile{
-		Name: 				"dds.dim_addresses",
+		Name: 				"dim_addresses",
 		Stage: 				"dds",
 		Connection: 		"default",
 		Materialization: 	"table",
 		IsDataFramed: 		false,
 		PersistInputs: 		false,
 		Tests: []*configs.TestProfile {
-			{
-				Name: 			"root.test_dim_addresses_unique",		
-			},
 		},
 	},
 }
